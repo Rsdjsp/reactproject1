@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "../css/movie.css";
+import Stars from "./Stars";
 
 function Movie({ movie }) {
   return (
@@ -10,17 +11,13 @@ function Movie({ movie }) {
         <h2 className="movie__title">{movie.title}</h2>
       </Link>
       <div className="movie__stars">
-        {isNaN(movie.rating / movie.numberOfReviews)
+        <Stars movie={movie} />
+        {movie.rating}
+        {/* {isNaN(movie.rating / movie.numberOfReviews)
           ? 0
-          : movie.rating / movie.numberOfReviews}
+          : movie.rating / movie.numberOfReviews} */}
       </div>
-      <img
-        className="movie-poster"
-        src={
-          "https://sm.ign.com/t/ign_za/gallery/s/spider-man/spider-man-far-from-home-official-movie-posters_ex7e.1080.jpg"
-        }
-        alt={movie.title}
-      ></img>
+      <img className="movie-poster" src={movie.poster} alt={movie.title}></img>
     </article>
   );
 }

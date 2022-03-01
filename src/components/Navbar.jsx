@@ -1,9 +1,11 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link} from "react-router-dom";
 
 import "../css/navbar.css";
 
 function Navbar() {
+  
+
   return (
     <>
       <div className="navbar-container">
@@ -22,12 +24,11 @@ function Navbar() {
             <Link to={"/"}>
               <p>unpopular</p>
             </Link>
-           
           </ul>
         </div>
         <div className="session-container">
           <img src="#" alt="session logo" />
-          <button>Login</button>
+          <button ><Link to={"/login"}>Login</Link></button>
         </div>
       </div>
     </>

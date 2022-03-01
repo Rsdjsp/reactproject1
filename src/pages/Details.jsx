@@ -1,32 +1,47 @@
 import React, { useContext, useRef } from "react";
 import { useParams, Navigate } from "react-router-dom";
-import Movie from "../components/Movie";
 import { moviesContext } from "../context/MoviesContext";
+import { userContext } from "../context/UserContext";
 
 function Details() {
+  const { user, logged } = useContext(userContext);
   const { id } = useParams();
   const { movies, reviews, addReview, loading } = useContext(moviesContext);
   const comment = useRef();
   const rating = useRef();
 
   const movie = movies.find((movie) => movie._id === id);
-  console.log(movie);
+  const comments = reviews.filter((comment) => comment.movieId === id);
+
+
+  if (!movie && !loading) {
+    return <Navigate to="/notfound" />;
+  }
+
+  const message = () => {
+    alert("Please Login or register for comment this movie");
+  };
+
   const add = () => {
     let fullComment = comment.current.value;
     let stars = rating.current.value;
-    addReview(movie, stars, fullComment);
+    let creator = user.userId;
+
+    addReview(movie, fullComment,creator);
   };
-  return (
-    <>
-      <div>
-        <img src="#" alt="backgroud" />
-              <h1>{movie.title}</h1>
-        <img src="#" alt="Poster" />
-        <p>reseña</p>
-      </div>
+
+  if (movie && comments) {
+    return (
       <div>
         <section>
-          <input ref={comment} type="text" name="comment" />
+          <div>
+            <img src={movie.background} alt="background" />
+            <h1>{movie.title}</h1>
+            <p>{movie.rating}</p>
+            <img src={movie.poster} alt="Poster" />
+            <p>{movie.review}</p>
+          </div>
+          <input type="text" name="comment" ref={comment} />
           <select ref={rating}>
             <option value={1}>1</option>
             <option value={2}>2</option>
@@ -34,17 +49,23 @@ function Details() {
             <option value={4}>4</option>
             <option value={5}>5</option>
           </select>
-          <button onClick={add}>Agregar review</button>
+          <button onClick={logged ? add : message}>Agregar review</button>
         </section>
         <section>
-          {reviews.map(
-            (review) =>
-              review.idMovie === id && <p key={review.id}>{review.comment}</p>
-          )}
+          {comments.map((comment, i) => {
+            return (
+              <div key={i}>
+                <p>{comment.date.slice(0, 10)}</p>
+                <p>{comment.comment}</p>;
+              </div>
+            );
+          })}
         </section>
       </div>
-    </>
-  );
+    );
+  } else {
+    return <div>Loading..</div>;
+  }
 }
 
 export default Details;

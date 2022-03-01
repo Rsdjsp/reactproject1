@@ -1,17 +1,20 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import '../src/css/index.css';
-import App from './App';
-import MoviesContext from './context/MoviesContext';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom";
+import "../src/css/index.css";
+import App from "./App";
+import MoviesContext from "./context/MoviesContext";
+import UserContext from "./context/UserContext";
+import reportWebVitals from "./reportWebVitals";
 
 ReactDOM.render(
   <React.StrictMode>
-  <MoviesContext>
-      <App />
+      <UserContext>
+    <MoviesContext>
+        <App />
     </MoviesContext>
+      </UserContext>
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
 
 // If you want to start measuring performance in your app, pass a function

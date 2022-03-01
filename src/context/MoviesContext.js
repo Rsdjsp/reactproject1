@@ -1,10 +1,10 @@
-import React, { createContext, useEffect, useReducer, useState } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import moviesReducer, { moviesInitialState } from "../reducers/moviesReducer";
 import reviewsReducer, {
   reviewsInitialState,
 } from "../reducers/reviewsReducer";
 
-export const moviesContext = createContext();
+export const moviesContext = React.createContext();
 
 function MoviesContext({ children }) {
   const [movies, setMovies] = useReducer(moviesReducer, moviesInitialState);
@@ -14,19 +14,47 @@ function MoviesContext({ children }) {
     reviewsInitialState
   );
 
+  const addReview = (movie, comment, creator) => {
+    fetch(
+      `https://movies-341014.ue.r.appspot.com/movies/${movie._id}/reviews`,
+      {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          comment: comment,
+          creator: creator,
+        }),
+      }
+    )
+      .then((res) => res.json())
+      .then((review) => {
+        dispatchReviews({ type: addReview, review: review });
+      })
+      .catch((error) => console.log(error));
+
+    // setMovies({ type: "addStars", movie, stars });
+    // dispatchReviews({ type: "addReview", reviews:comments });
+  };
   const [loading, setLoading] = useState(true);
 
-  const addReview = (movie, stars, comment) => {
-    setMovies({ type: "addStars", movie, stars });
-    dispatchReviews({ type: "addReview", idMovie: movie._id, comment });
-  };
-
   useEffect(() => {
-    fetch("https://backendtzuzulcode.wl.r.appspot.com/movies")
+    fetch("https://movies-341014.ue.r.appspot.com/movies")
       .then((res) => res.json())
       .then((data) => {
         setMovies({ type: "addMovies", movies: data });
         setLoading(false);
+      })
+      .catch((error) => setLoading(false));
+  }, []);
+
+  useEffect(() => {
+    fetch("https://movies-341014.ue.r.appspot.com/reviews")
+      .then((res) => res.json())
+      .then((data) => {
+        dispatchReviews({ type: "fetchReview", reviews: data });
       })
       .catch((error) => setLoading(false));
   }, []);
@@ -38,6 +66,7 @@ function MoviesContext({ children }) {
         movies: movies.movies,
         addReview,
         reviews: reviews.reviews,
+        setLoading,
       }}
     >
       {children}

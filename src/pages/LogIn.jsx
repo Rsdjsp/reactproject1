@@ -3,17 +3,17 @@ import { Link } from "react-router-dom";
 import { userContext } from "../context/UserContext";
 
 function LogIn() {
-  const { user, userVerify, logged, setLogged } = useContext(userContext);
-
+  const { userVerify, logged } = useContext(userContext);
+  const userName = localStorage.getItem("name")
   const log = (event) => {
     event.preventDefault();
     const { email, password } = event.target;
     userVerify(email.value, password.value);
-    setLogged(true);
+    
   };
   return (
     <div className="page">
-      <p>{logged ? "Bienvenido " + user.name : "Sin sesión"}</p>
+      <p>{logged ? "Bienvenido " + userName : "Sin sesión"}</p>
 
       <form onSubmit={log}>
         <input type="email" name="email" />

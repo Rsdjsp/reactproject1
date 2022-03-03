@@ -7,7 +7,7 @@ export default function moviesReducer(state, action) {
   switch (action.type) {
     case "addStars":
       const { movie, stars } = action;
-      movie.stars = movie.stars + parseInt(stars);
+      movie.rating = movie.stars + parseInt(stars);
       movie.numberOfReviews++;
       newState = { movies: [...state.movies] };
       break;

@@ -13,7 +13,6 @@ function Details() {
   const movie = movies.find((movie) => movie._id === id);
   const comments = reviews.filter((comment) => comment.movieId === id);
 
-
   if (!movie && !loading) {
     return <Navigate to="/notfound" />;
   }
@@ -26,8 +25,8 @@ function Details() {
     let fullComment = comment.current.value;
     let stars = rating.current.value;
     let creator = user.userId;
-
-    addReview(movie, fullComment,creator);
+    addReview(movie, fullComment, creator, stars);
+    comment.current.value = "";
   };
 
   if (movie && comments) {
@@ -56,7 +55,7 @@ function Details() {
             return (
               <div key={i}>
                 <p>{comment.date.slice(0, 10)}</p>
-                <p>{comment.comment}</p>;
+                <p>{comment.comment}</p>
               </div>
             );
           })}

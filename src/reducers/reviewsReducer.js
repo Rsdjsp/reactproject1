@@ -11,15 +11,9 @@ export default function reviewsReducer(state, action) {
       break;
 
     case "addReview":
-      console.log(action,"review action");
-      const { idMovie, comment } = action;
-      newState = {
-        reviews: [...state.reviews],
-        // reviews: [
-        //   ...state.reviews,
-        //   { id: state.reviews.length, idMovie, comment },
-        // ],
-      };
+      const { review } = action;
+      
+      newState = [...state.reviews, { review }];
       break;
 
     default:

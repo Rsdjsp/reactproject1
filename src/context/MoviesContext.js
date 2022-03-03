@@ -1,4 +1,5 @@
 import React, { useEffect, useReducer, useState } from "react";
+
 import moviesReducer, { moviesInitialState } from "../reducers/moviesReducer";
 import reviewsReducer, {
   reviewsInitialState,
@@ -13,32 +14,6 @@ function MoviesContext({ children }) {
     reviewsReducer,
     reviewsInitialState
   );
-
-  const addReview = (movie, comment, creator) => {
-    fetch(
-      `https://movies-341014.ue.r.appspot.com/movies/${movie._id}/reviews`,
-      {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          comment: comment,
-          creator: creator,
-        }),
-      }
-    )
-      .then((res) => res.json())
-      .then((review) => {
-        dispatchReviews({ type: addReview, review: review });
-      })
-      .catch((error) => console.log(error));
-
-    // setMovies({ type: "addStars", movie, stars });
-    // dispatchReviews({ type: "addReview", reviews:comments });
-  };
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch("https://movies-341014.ue.r.appspot.com/movies")
@@ -57,7 +32,31 @@ function MoviesContext({ children }) {
         dispatchReviews({ type: "fetchReview", reviews: data });
       })
       .catch((error) => setLoading(false));
-  }, []);
+  }, [reviews]);
+
+  const addReview = (movie, comment, creator, stars) => {
+    fetch(
+      `https://movies-341014.ue.r.appspot.com/movies/${movie._id}/reviews`,
+      {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          comment: comment,
+          creator: creator,
+        }),
+      }
+    )
+      .then((res) => res.json())
+      .then((review) => {
+        console.log(review);
+        dispatchReviews({ type: addReview, review: review });
+      })
+      .catch((error) => console.log(error));
+  };
+  const [loading, setLoading] = useState(true);
 
   return (
     <moviesContext.Provider

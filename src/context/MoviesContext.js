@@ -1,4 +1,5 @@
-import React, { useEffect, useReducer, useState } from "react";
+import React, { useContext, useEffect, useReducer, useState } from "react";
+import { userContext } from "../context/UserContext";
 
 import moviesReducer, { moviesInitialState } from "../reducers/moviesReducer";
 import reviewsReducer, {
@@ -8,6 +9,8 @@ import reviewsReducer, {
 export const moviesContext = React.createContext();
 
 function MoviesContext({ children }) {
+  const [loading, setLoading] = useState(true);
+  const { userName } = useContext(userContext);
   const [movies, setMovies] = useReducer(moviesReducer, moviesInitialState);
 
   const [reviews, dispatchReviews] = useReducer(
@@ -32,7 +35,7 @@ function MoviesContext({ children }) {
         dispatchReviews({ type: "fetchReview", reviews: data });
       })
       .catch((error) => setLoading(false));
-  }, [reviews]);
+  }, [loading]);
 
   const addReview = (movie, comment, creator, stars) => {
     fetch(
@@ -46,17 +49,36 @@ function MoviesContext({ children }) {
         body: JSON.stringify({
           comment: comment,
           creator: creator,
+          stars: stars,
+          userName: userName,
         }),
       }
     )
       .then((res) => res.json())
       .then((review) => {
-        console.log(review);
         dispatchReviews({ type: addReview, review: review });
+        setLoading(false);
       })
       .catch((error) => console.log(error));
   };
-  const [loading, setLoading] = useState(true);
+
+  const removeReview = (movieId, reviewId) => {
+    fetch(
+      `https://movies-341014.ue.r.appspot.com/reviews/${movieId}/${reviewId}`,
+      {
+        method: "DELETE",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((res) => res.json())
+      .then(() => {
+        setLoading(false);
+      })
+      .catch((error) => console.log(error));
+  };
 
   return (
     <moviesContext.Provider
@@ -66,6 +88,7 @@ function MoviesContext({ children }) {
         addReview,
         reviews: reviews.reviews,
         setLoading,
+        removeReview
       }}
     >
       {children}

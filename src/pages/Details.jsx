@@ -6,7 +6,8 @@ import { userContext } from "../context/UserContext";
 function Details() {
   const { user, logged } = useContext(userContext);
   const { id } = useParams();
-  const { movies, reviews, addReview, loading } = useContext(moviesContext);
+  const { movies, reviews, addReview, loading, setLoading, removeReview } =
+    useContext(moviesContext);
   const comment = useRef();
   const rating = useRef();
 
@@ -27,6 +28,14 @@ function Details() {
     let creator = user.userId;
     addReview(movie, fullComment, creator, stars);
     comment.current.value = "";
+    setLoading(true);
+  };
+
+  const deleteReview = (commentId) => {
+    let movieId = movie._id;
+    let reviewId = commentId;
+    removeReview(movieId, reviewId);
+    setLoading(true);
   };
 
   if (movie && comments) {
@@ -54,8 +63,13 @@ function Details() {
           {comments.map((comment, i) => {
             return (
               <div key={i}>
-                <p>{comment.date.slice(0, 10)}</p>
-                <p>{comment.comment}</p>
+                {comment.stars && <p>{comment.stars}</p>}
+                {comment.date && <p>{comment.date.slice(0, 10)}</p>}
+                {comment.comment && <p>{comment.comment}</p>}
+                {comment.userName && <p>{comment.userName}</p>}
+                <button onClick={() => deleteReview(comment._id)}>
+                  Eliminar
+                </button>
               </div>
             );
           })}

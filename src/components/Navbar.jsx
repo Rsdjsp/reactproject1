@@ -1,10 +1,11 @@
-import React from "react";
-import { Link} from "react-router-dom";
+import React, { useContext } from "react";
+import { Link } from "react-router-dom";
+import { userContext } from "../context/UserContext";
 
 import "../css/navbar.css";
 
 function Navbar() {
-  
+  const { logOut, logged } = useContext(userContext);
 
   return (
     <>
@@ -28,7 +29,12 @@ function Navbar() {
         </div>
         <div className="session-container">
           <img src="#" alt="session logo" />
-          <button ><Link to={"/login"}>Login</Link></button>
+          {!logged && (
+            <button>
+              <Link to={"/login"}>Login</Link>
+            </button>
+          )}
+          {logged && <button onClick={() => logOut()}>LogOut</button>}
         </div>
       </div>
     </>

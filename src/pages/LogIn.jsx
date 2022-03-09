@@ -13,13 +13,13 @@ function LogIn() {
 
   };
   return (
-    <div className="page">
+    <div className=" translate-y-28">
       <p>{logged&& "Bienvenido " + userName}</p>
 
       <form onSubmit={log}>
         <input type="email" name="email" />
         <input type="password" name="password" />
-        <button>Enviar</button>
+        <button className="border-2 border-slate-900">Enviar</button>
         <button>
           <Link to={"/singup"}>Register</Link>
         </button>

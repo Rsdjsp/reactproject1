@@ -80,15 +80,42 @@ function MoviesContext({ children }) {
       .catch((error) => console.log(error));
   };
 
+  useEffect(() => {
+    fetch("https://movies-341014.ue.r.appspot.com/filter/popular")
+      .then((res) => res.json())
+      .then((data) => {
+        setMovies({ type: "addPopular", popular: data });
+        setLoading(false);
+      })
+      .catch((error) => setLoading(false));
+    fetch("https://movies-341014.ue.r.appspot.com/filter/unpopular")
+      .then((res) => res.json())
+      .then((data) => {
+        setMovies({ type: "addUnpopular", unpopular: data });
+        setLoading(false);
+      })
+      .catch((error) => setLoading(false));
+    fetch("https://movies-341014.ue.r.appspot.com/filter/recent")
+      .then((res) => res.json())
+      .then((data) => {
+        setMovies({ type: "addRecent", recent: data });
+        setLoading(false);
+      })
+      .catch((error) => setLoading(false));
+  }, []);
+
   return (
     <moviesContext.Provider
       value={{
         loading,
         movies: movies.movies,
+        popular: movies.popular,
+        unpopular: movies.unpopular,
+        recent: movies.recent,
         addReview,
         reviews: reviews.reviews,
         setLoading,
-        removeReview
+        removeReview,
       }}
     >
       {children}

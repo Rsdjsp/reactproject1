@@ -3,9 +3,12 @@ module.exports = {
   theme: {
     extend: {
       height: {
-        120: "30.5rem",
+        120: "30rem",
         128: "31rem",
         129: "32.7rem",
+      },
+      top: {
+        70: "19rem",
       },
       colors: {
         brown: {

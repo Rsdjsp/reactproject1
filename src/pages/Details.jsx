@@ -1,5 +1,5 @@
 import React, { useContext, useRef, useState } from "react";
-import { useParams, Navigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Footer from "../components/Footer";
 import { moviesContext } from "../context/MoviesContext";
 import { userContext } from "../context/UserContext";

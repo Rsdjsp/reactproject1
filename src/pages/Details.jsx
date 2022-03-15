@@ -113,7 +113,7 @@ function Details() {
                   className="absolute  my-auto right-10 top-24  font-sans text-xl text-pomegranate-500 hover:bg-pomegranate-500 hover:text-slate-50 hover:h-8  hover:px-1 hover:rounded-md hover:shadow-lg"
                   onClick={logged ? add : message}
                 >
-                  Agregar review
+                  Add Review
                 </button>
               </article>
               <article className="bg-heather-500 border-2 border-heather-600 rounded-md">
@@ -149,7 +149,7 @@ function Details() {
                           onClick={() => deleteReview(comment._id)}
                           className="absolute right-28 top-24 font-sans text-xl text-pomegranate-500  hover:border-b-2 hover:border-b-pomegranate-500"
                         >
-                          Eliminar
+                          Delete
                         </button>
                       )}
                     </div>

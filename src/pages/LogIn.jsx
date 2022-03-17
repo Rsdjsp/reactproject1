@@ -16,12 +16,13 @@ function LogIn() {
     userVerify(email.value, password.value);
     email.value = "";
     password.value = "";
+    scroll.scrollToTop();
     setModal(true);
     setTimeout(() => {
-      navigate(-1);
       setModal(false);
+      navigate(-1);
     }, 2000);
-    scroll.scrollToTop();
+    
   };
 
   return (

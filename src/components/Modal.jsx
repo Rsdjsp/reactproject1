@@ -12,7 +12,9 @@ function Modal({ userName }) {
           <div className=" flex justify-center relative  w-2/5 h-1/3 bg-white rounded-md shadow-xl top-1/3 left-1/3 -ml-10 ">
             <h1 className="font-sans m-auto text-2xl">
               Bienvenido{" "}
-              <span className="text-pomegranate-500 capitalize">{userName}</span>
+              <span className="text-pomegranate-500 capitalize">
+                {userName}
+              </span>
             </h1>
           </div>
         </div>
@@ -25,10 +27,12 @@ function Modal({ userName }) {
           <div className=" flex justify-center relative  w-2/5 h-1/3 bg-white rounded-md shadow-xl top-1/3 left-1/3 -ml-10 ">
             <h1 className="font-sans m-auto text-2xl">
               Please {""}
-              <Link to={"/"}>
-                <span className="font-bold text-pomegranate-500 hover:underline hover:underline-offset-2">
-                  Log in {""}
-                </span>
+              <Link to={"/login"}>
+                <button className="mr-2" onClick={() => setModal(false)}>
+                  <span className="font-bold text-pomegranate-500 hover:underline hover:underline-offset-2">
+                    Log in {""}
+                  </span>
+                </button>
               </Link>
               to comment in the app
             </h1>
